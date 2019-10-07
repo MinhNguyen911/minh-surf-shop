@@ -13,12 +13,14 @@ router.get('/register', (req, res, next) => {
 router.post('/register', (req, res, next) => {
   res.send('POST /register');
 });
+
 router.get('/login', (req, res, next) => {
   res.send('GET /login');
 });
 router.post('/login', (req, res, next) => {
   res.send('POST /login');
 });
+
 router.get('/profile', (req, res, next) => {
   res.send('GET /profile');
 });
