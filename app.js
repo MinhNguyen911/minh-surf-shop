@@ -21,7 +21,7 @@ const app = express();
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect('mongodb://localhost:27017/surf_shop', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/surf_shop_mapbox', {useNewUrlParser: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
@@ -30,6 +30,8 @@ db.once('open', () => {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+//set public assets directory
+app.use(express.static('public'));
 
 app.use(logger('dev'));
 app.use(express.json());

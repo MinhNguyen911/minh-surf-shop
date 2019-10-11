@@ -1,4 +1,7 @@
+require('dotenv').config();
 const Post = require('../models/post');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const cloudinary = require('cloudinary');
 cloudinary.config({
     cloud_name:'davmywtov',
@@ -27,6 +30,7 @@ module.exports = { // Posts Index
 // Posts Create
     async postCreate(req, res, next)
     { 
+        // upload new image here
         req.body.post.images=[];
         for (const file of req.files){
             let image = await cloudinary.v2.uploader.upload(file.path);
@@ -35,6 +39,13 @@ module.exports = { // Posts Index
                 public_id: image.public_id
             });
         }
+        // geocode the new input location
+        let response = await geocodingClient.forwardGeocode({
+            query: req.body.post.location,
+            limit: 1
+          })
+            .send();
+        req.body.post.coordinates = response.body.features[0].geometry.coordinates;
         // use req.body to create a new Post
         let post = await Post.create(req.body.post);
         res.redirect(`/posts/${
@@ -66,8 +77,8 @@ module.exports = { // Posts Index
             let deleteImages = req.body.deleteImages;
             // loop over deleteImages and delete images from both cloudinary and post.images
             for (const public_id of deleteImages){
-                await cloudinary.v2.uploader.destroy(public_id);
-                for (const image of post.images){
+                await cloudinary.v2.uploader.destroy(public_id); //delete from the cloud
+                for (const image of post.images){                //delete from the post
                     if(image.public_id === public_id){
                         let index = post.images.indexOf(image);
                         post.images.splice(index,1) ; //delete that image
@@ -86,10 +97,18 @@ module.exports = { // Posts Index
                 });
             }
         }
+        if(req.body.post.location !== post.location){
+            let response = await geocodingClient.forwardGeocode({
+                query: req.body.post.location,
+                limit: 1
+              })
+                .send();
+            post.coordinates = response.body.features[0].geometry.coordinates;
+            post.location = req.body.post.location;
+        }
         //update the post with new properties
         post.title = req.body.post.title;
         post.description = req.body.post.description;
-        post.location = req.body.post.location;
         post.price = req.body.post.price;
         //save the updated post into the db
         post.save();
