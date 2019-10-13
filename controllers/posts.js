@@ -17,7 +17,7 @@ module.exports = { // Posts Index
         );
         res.render('posts/index',
         {
-            posts
+            posts, title:'Posts Index'
         });
     },
 

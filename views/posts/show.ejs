@@ -1,30 +1,5 @@
-<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' rel='stylesheet' />
-<style>
-        body {
-          margin: 0;
-          padding: 0;
-        }
-        #map {
-          height: 300px;
-          width: 600px;
-        }
-        .marker {
-            background-image: url('/images/mapbox-icon.png');
-            background-size: cover;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .mapboxgl-popup {
-            max-width: 200px;
-        }
-        .mapboxgl-popup-content {
-            text-align: center;
-            font-family: 'Open Sans', sans-serif;
-        }
-</style>
+<% layout('layouts/post-show-layout') -%>
+
 <h1><%= post.title %></h1>
 <div><%=post.price%></div>
 <div><%=post.description%></div>
@@ -50,27 +25,3 @@
 
 <div id='map'></div>
 
-<script>
-var post = <%- JSON.stringify(post) %>;  //weird error, this supposes to work?
-mapboxgl.accessToken = 'pk.eyJ1IjoibWVhdGJhbGx0a28iLCJhIjoiY2sxamZja281MDJuMTNucGU5OXhrazNjZCJ9.b4nnGEfq4Z3mTHC5i18-yg';
-
-var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/light-v10',
-center: post.coordinates,
-zoom: 5
-});
-
-// add markers to map
-// create a HTML element for each feature
-var el = document.createElement('div');
-el.className = 'marker';
-
-// make a marker for each feature and add to the map
-new mapboxgl.Marker(el)
-.setLngLat(post.coordinates)
-.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-.setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>'))
-.addTo(map);
-
-</script>

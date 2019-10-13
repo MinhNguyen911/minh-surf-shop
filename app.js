@@ -1,6 +1,7 @@
 require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
+const engine = require('ejs-mate');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -28,6 +29,7 @@ db.once('open', () => {
     console.log('we\'re connected!');
 });
 // view engine setup
+app.engine('ejs', engine); //for ejs-mate
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 //set public assets directory
@@ -47,18 +49,23 @@ app.use(passport.session());
 passport.use(User.createStrategy()); // CHANGE: USE "createStrategy" INSTEAD OF "authenticate"
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// title middleware (pre route)
+app.use((req,res,next) => {
+    res.locals.title = 'Surf Shop';
+    next();
+});
 // Mount Routes
 app.use('/', indexRouter);
 app.use('/posts', postsRouter);
 app.use('/posts/:id/reviews', reviewsRouter);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) { // set locals, only providing error in development
+app.use((err, req, res, next) => { // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
@@ -66,5 +73,6 @@ app.use(function (err, req, res, next) { // set locals, only providing error in 
     res.status(err.status || 500);
     res.render('error');
 });
+
 
 module.exports = app;
