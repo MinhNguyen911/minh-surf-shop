@@ -22,7 +22,7 @@ const app = express();
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect('mongodb://localhost:27017/surf_shop_mapbox', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/surf_shop', {useNewUrlParser: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
@@ -43,7 +43,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 // configure Passport and Session
-app.use(session({secret: 'minh nguyen', resave: false, saveUninitialized: true}));
+app.use(session({
+    secret: 'minh nguyen', 
+    resave: false, 
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(User.createStrategy()); // CHANGE: USE "createStrategy" INSTEAD OF "authenticate"
