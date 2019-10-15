@@ -56,6 +56,12 @@ passport.deserializeUser(User.deserializeUser());
 // title middleware (pre route)
 app.use((req,res,next) => {
     res.locals.title = 'Surf Shop';
+    //manually set the current user
+    req.user = {
+        '_id' : '5da50b0918d5e703738468a0',
+        'username' : 'meatball'
+    }
+    res.locals.currentUser = req.user;
     // set success flash message
     res.locals.success = req.session.success || '';
     delete req.session.success;
