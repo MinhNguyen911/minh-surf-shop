@@ -127,7 +127,8 @@ module.exports = { // Posts Index
         for(const image of post.images){
             await cloudinary.v2.uploader.destroy(image.public_id);
         }
-        await Post.deleteOne(post);
+        await post.remove();
+        req.session.success = 'Post deleted successfully';
         res.redirect('/posts');
     }
 }
