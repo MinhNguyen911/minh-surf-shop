@@ -67,9 +67,9 @@ module.exports = { // Posts Index
                 model: 'User'
             }
         });
-        // const floorRating = post.calculateAvgRating();
+        const floorRating = post.calculateAvgRating();
         res.render('posts/show', {
-            post
+            post, floorRating
         });
     },
     async postEdit(req, res, next) {

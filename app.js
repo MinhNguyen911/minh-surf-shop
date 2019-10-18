@@ -10,8 +10,8 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const seedPosts = require('./seeds');
-seedPosts(); //seeding the page with 40 posts
+// const seedPosts = require('./seeds');
+// seedPosts(); //seeding the page with 40 posts
 // require routes
 
 const indexRouter = require('./routes/index');
@@ -60,8 +60,12 @@ app.use((req,res,next) => {
     res.locals.title = 'Surf Shop';
     //manually set the current user
     req.user = {
-        '_id' : '5da50b0918d5e703738468a0',
+        '_id' : '5da50b0918d5e703738468a0', //meatball
         'username' : 'meatball'
+        // '_id' : '5da63820d07ddc0181a81eb0', //meatball2
+        // 'username' : 'meatball2'
+        // '_id' : '5da8e9c3a7afdb015f5b3f08', //meatball3
+        // 'username' : 'meatball3'
     }
     res.locals.currentUser = req.user;
     // set success flash message
