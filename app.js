@@ -10,8 +10,10 @@ const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-
+const seedPosts = require('./seeds');
+seedPosts(); //seeding the page with 40 posts
 // require routes
+
 const indexRouter = require('./routes/index');
 const reviewsRouter = require('./routes/reviews');
 const postsRouter = require('./routes/posts');
