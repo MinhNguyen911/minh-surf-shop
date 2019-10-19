@@ -12,6 +12,13 @@ module.exports = {
             title: 'Surf Shop - Home'
         });
     },
+    // GET /register
+    getRegister(req, res, next) {
+        res.render('register', {
+            title: 'Register'
+        });
+    },
+    //POST /register
     async postRegister(req, res, next) {
         console.log('registering user');
         const newUser = new User({
@@ -19,10 +26,20 @@ module.exports = {
             email: req.body.email,
             image: req.body.image
         });
-        await User.register(newUser, req.body.password);
-        console.log('user registered!');
-        res.redirect('/');
+        let user = await User.register(newUser, req.body.password);
+        req.login(user, (err)=>{
+            if (err) return next(err);
+            req.session.success = `Welcome to the Surf Shop, ${user.username}`;
+            res.redirect('/');
+        })
     },
+    // GET /login
+    getLogin(req, res, next) {
+        res.render('login', {
+            title: 'Login'
+        });
+    },
+    // POST /login
     postLogin(req, res, next) {
         passport.authenticate('local', {
             successRedirect: '/',
