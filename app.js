@@ -11,7 +11,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 // const seedPosts = require('./seeds');
-// seedPosts(); //seeding the page with 40 posts
+// seedPosts(); //seeding the page with 600 posts
 // require routes
 
 const indexRouter = require('./routes/index');

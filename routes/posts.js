@@ -5,7 +5,7 @@ const multer = require('multer'); // this package is for dealing with data from 
 const { cloudinary, storage } = require('../cloudinary');
 const upload = multer({ storage });
 // dont need to specify what file if the name is index.js
-const { asyncErrorHandler, isLoggedIn } = require('../middleware');
+const { asyncErrorHandler, isLoggedIn, isAuthor } = require('../middleware');
 const
 {
     postIndex,
@@ -30,14 +30,14 @@ router.post('/', isLoggedIn, upload.array('images',4), asyncErrorHandler(postCre
 router.get('/:id', asyncErrorHandler(postShow));
 
 /* GET posts edit /posts/:id/edit */
-router.get('/:id/edit', asyncErrorHandler(postEdit));
+router.get('/:id/edit',isLoggedIn, asyncErrorHandler(isAuthor), asyncErrorHandler(postEdit));
 
-/* GET posts update/posts/:id */
-router.put('/:id', upload.array('images',4), asyncErrorHandler(postUpdate));
+/* PUT posts update/posts/:id */
+router.put('/:id',isLoggedIn, asyncErrorHandler(isAuthor), upload.array('images',4), asyncErrorHandler(postUpdate));
 
 
-/* GET posts destroy /posts/:id */
-router.delete('/:id', asyncErrorHandler(postDestroy));
+/* DELETE posts destroy /posts/:id */
+router.delete('/:id',isLoggedIn, asyncErrorHandler(isAuthor), asyncErrorHandler(postDestroy));
 
 
 module.exports = router;
