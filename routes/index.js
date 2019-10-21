@@ -16,10 +16,10 @@ const {
 router.get('/', asyncErrorHandler(landingPage));
 
 router.get('/register', getRegister);
-router.post('/register', asyncErrorHandler(checkIfUserExists), asyncErrorHandler(postRegister));
+router.post('/register', asyncErrorHandler(postRegister));
 
 router.get('/login', getLogin);
-router.post('/login', postLogin);
+router.post('/login', asyncErrorHandler(postLogin));
 router.get('/logout', getLogout);
 router.get('/profile', (req, res, next) => {
     res.send('GET /profile');
