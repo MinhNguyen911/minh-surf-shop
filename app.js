@@ -21,10 +21,12 @@ const postsRouter = require('./routes/posts');
 
 const app = express();
 // connect to the database
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
-mongoose.connect('mongodb://localhost:27017/surf_shop', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/surf_shop', {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {

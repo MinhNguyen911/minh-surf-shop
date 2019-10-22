@@ -32,6 +32,7 @@ module.exports = {
 	getLogin(req, res, next) {
 		//check if user already logged in and try to log in again?
 		if(req.isAuthenticated()) return res.redirect('/'); 
+		if(req.query.returnTo) req.session.redirectTo = req.headers.referer;
 		res.render('login', { title: 'Login' });
 	},
 	// POST /login
