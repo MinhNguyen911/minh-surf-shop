@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer'); // this package is for dealing with data from our form
 //to upload onto the cloud (cloudinary)
-const { cloudinary, storage } = require('../cloudinary');
+const { storage } = require('../cloudinary');
 const upload = multer({ storage });
 // dont need to specify what file if the name is index.js
 const { asyncErrorHandler, isLoggedIn, isAuthor } = require('../middleware');

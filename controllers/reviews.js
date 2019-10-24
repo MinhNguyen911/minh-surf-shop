@@ -19,7 +19,7 @@ module.exports = {
 		// assign review to post
 		post.reviews.push(review);
 		// save the post
-		post.save();
+		await post.save();
 		// redirect to the post
 		req.session.success = 'Review created successfully!';
 		res.redirect(`/posts/${post.id}`);
