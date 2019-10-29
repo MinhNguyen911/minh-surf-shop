@@ -1,40 +1,50 @@
 <% layout('layouts/boilerplate') -%>
-
-<h1><img class="profile-image" src="<%= currentUser.image.secure_url %>" alt="<%= currentUser.username %>'s profile image"> <%= currentUser.username %>'s Profile %> </h1>
-<p>Recent Posts:</p>
-<% posts.forEach((post)=>{ %>
-<div>
-    <a href="/posts/<%= post.id %>"><%= post.title %></a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="profile-page">
+                <h1>
+                    <img class="profile-image" src="<%= currentUser.image.secure_url %>" alt="<%= currentUser.username %>'s profile image"> <%= currentUser.username %>'s Profile %>
+                </h1>
+                <p>Recent Posts:</p>
+                <% posts.forEach((post)=>{ %>
+                <div>
+                    <a href="/posts/<%= post.id %>"><%= post.title %></a>
+                </div>
+                <% }); %>
+                <h1>Update Info:</h1>
+                <form action="/profile?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="username" value="<%= currentUser.username %>" autofocus required>
+                    </div>
+                    <div class="form-group">
+                        <label for="current-password">Current Password: (required to update profile)</label>
+                        <input type="password" id="current-password" name="currentPassword" placeholder="current password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password:</label>
+                        <input type="password" class="form-control" id="new-password" name="newPassword" placeholder="new password">
+                    </div>
+                    <div class="form-group">
+                        <label for="password-confirmation">Confirm New Password</label>
+                        <input type="password" class="form-control" id="password-confirmation" name="passwordConfirmation" placeholder="Enter new password again">
+                    </div>
+                    <div id="validation-message"></div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email"  class="form-control" id="email" name="email" placeholder="email" value="<%= currentUser.email %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image:</label>
+                        <small>(This will delete existing image)</small>
+                        <input type="file" class="form-control" id="image" name="image">
+                    </div>
+                    <input type="submit" class="btn btn-warning" id="update-profile">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-<% }); %>
-<p>Update Info:</p>
-<form action="/profile?_method=PUT" method="POST" enctype="multipart/form-data">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="username" value="<%= currentUser.username %>" autofocus required>
-    </div>
-    <div>
-        <label for="current-password">Current Password: (required to update profile)</label>
-        <input type="password" id="current-password" name="currentPassword" placeholder="current password" required>
-    </div>
-    <div>
-        <label for="new-password"></label>
-        <input type="password" id="new-password" name="newPassword" placeholder="new password">
-    </div>
-    <div>
-        <label for="password-confirmation"></label>
-        <input type="password" id="password-confirmation" name="passwordConfirmation" placeholder="password confirmation">
-    </div>
-    <div id="validation-message"></div>
-    <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="email" value="<%= currentUser.email %>">
-    </div>
-    <div>
-        <label for="image">Image:</label>
-        <small>(This will delete existing image)</small>
-        <input type="file" id="image" name="image">
-    </div>
-    <input type="submit" id="update-profile">
-</form>
+
 <script src="/javascripts/profile.js"></script>

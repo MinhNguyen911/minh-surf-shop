@@ -1,7 +1,11 @@
 <% layout('layouts/boilerplate') -%>
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
-<div id='map'></div>
+<div class="container">
+    <div class="landing-page"></div>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <div id='map'></div>
+</div>
+
 <script>
     mapboxgl.accessToken = "<%= mapBoxToken %>";
     var posts = {features: <%- JSON.stringify(posts) %>};

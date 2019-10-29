@@ -1,17 +1,21 @@
 <% layout('layouts/boilerplate') -%>
-<h1>Post Index</h1>
-<div id='map'></div>
-<% include ../partials/paginationPosts %>
-<% posts.docs.forEach((post) => { %>
-    <div>
-        <h2> <%= post.title       %></h2>
-        <div><%= post.price       %></div>
-        <div><%= post.description %></div>
-        <div><%= post.location    %></div>
-        <div><a href="/posts/<%= post.id%>">Show more</a></div>
+<div class="container">
+    <div class="posts-index-page">
+        <h1>Post Index</h1>
+        <div id='map'></div>
+        <% include ../partials/paginationPosts %>
+        <% posts.docs.forEach((post) => { %>
+            <div>
+                <h2> <%= post.title       %></h2>
+                <div><%= post.price       %></div>
+                <div><%= post.description %></div>
+                <div><%= post.location    %></div>
+                <div><a href="/posts/<%= post.id%>">Show more</a></div>
+            </div>
+        <% }); %>
+        <% include ../partials/paginationPosts %>
     </div>
-<% }); %>
-<% include ../partials/paginationPosts %>
+</div>
 <script>
         mapboxgl.accessToken = "<%= mapBoxToken %>";
         var posts = {features: <%- JSON.stringify(posts.docs) %>};
